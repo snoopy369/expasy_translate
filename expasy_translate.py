@@ -26,9 +26,6 @@ for opt, arg in opts:
    else:
       sys.exit(2)
      
-   
-inputfile = "/Users/snoopy369/Documents/dna_random.csv"
-outputfile = "/Users/snoopy369/Documents/prot_random.csv"
       
 dnaList = []
 
