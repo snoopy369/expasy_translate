@@ -25,8 +25,10 @@ for opt, arg in opts:
       outputfile = arg
    else:
       sys.exit(2)
-      
-      
+     
+   
+inputfile = "/Users/snoopy369/Documents/dna_random.csv"
+outputfile = "/Users/snoopy369/Documents/prot_random.csv"
       
 dnaList = []
 
@@ -41,9 +43,17 @@ protList = []
 for DNAseq in dnaList:
     response = requests.post("https://web.expasy.org/cgi-bin/translate/dna2aa.cgi", data={"dna_sequence":DNAseq, "output_format":"fasta"})
     resp_list = response.text.splitlines()
-    for index,str_prot in enumerate(resp_list):
+    keep = 0
+    protStr=""
+    for str_prot in resp_list:
+        if str_prot.find("5'3' Frame 2") > 0:
+            keep=0
+        if keep==1:
+            protStr += str_prot
         if str_prot.find("5'3' Frame 1") > 0:
-            protList.append(resp_list[index+1])
+            keep=1
+    protList.append(protStr)
+
 
 with open(outputfile,'w') as csvOutput:
     for protRow in protList:
@@ -51,4 +61,3 @@ with open(outputfile,'w') as csvOutput:
         csvOutput.write("\n")
         
 csvOutput.close()
-    
